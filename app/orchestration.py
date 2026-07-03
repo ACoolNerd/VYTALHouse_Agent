@@ -123,7 +123,7 @@ def process_next_task(session_factory: sessionmaker, settings: Settings) -> bool
             finalize_runs(session, task.run_id)
             session.commit()
             return True
-    except Exception as exc:  # pragma: no cover - exercised via status assertions
+    except (RuntimeError, ValueError) as exc:  # pragma: no cover - exercised via status assertions
         with session_factory() as session:
             task = session.get(Task, task_id)
             if task is None:
@@ -476,7 +476,7 @@ def build_launch_checklist(session: Session, task: Task) -> None:
 def attach_seed_artifact_evidence(session: Session, task: Task, artifact: Artifact, prefixes: tuple[str, ...]) -> None:
     assets = session.execute(select(KnowledgeAsset).order_by(KnowledgeAsset.source_path)).scalars().all()
     for asset in assets:
-        if any(PathPart in asset.source_path for PathPart in prefixes):
+        if any(path_part in asset.source_path for path_part in prefixes):
             attach_evidence(
                 session,
                 task.run_id,

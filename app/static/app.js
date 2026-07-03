@@ -163,7 +163,9 @@ async function bootstrap() {
     clearInterval(state.pollHandle);
   }
   state.pollHandle = setInterval(() => {
-    refreshRuns().catch(() => {});
+    refreshRuns().catch((error) => {
+      console.error("Polling refresh failed", error);
+    });
   }, 3000);
 }
 

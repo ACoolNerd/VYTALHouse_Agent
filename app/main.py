@@ -128,19 +128,13 @@ def create_app(settings_overrides: dict | None = None) -> FastAPI:
 
     @app.get("/api/knowledge", response_model=list[KnowledgeAssetRead], dependencies=[Depends(require_admin_token)])
     def list_knowledge(
-        request: Request,
         q: str | None = Query(default=None, max_length=120),
         session: Session = Depends(get_session),
     ):
-        del request
         return search_knowledge_assets(session, q)
 
     @app.get("/api/runs", response_model=list[RunRead], dependencies=[Depends(require_admin_token)])
-    def list_runs(
-        request: Request,
-        session: Session = Depends(get_session),
-    ):
-        del request
+    def list_runs(session: Session = Depends(get_session)):
         runs = session.execute(select(Run).order_by(Run.created_at.desc()).limit(20)).scalars().all()
         return [serialize_run(run) for run in runs]
 
@@ -155,16 +149,14 @@ def create_app(settings_overrides: dict | None = None) -> FastAPI:
         return serialize_run(run)
 
     @app.get("/api/runs/{run_id}", response_model=RunRead, dependencies=[Depends(require_admin_token)])
-    def get_run(run_id: str, request: Request, session: Session = Depends(get_session)):
-        del request
+    def get_run(run_id: str, session: Session = Depends(get_session)):
         run = session.execute(select(Run).where(Run.id == run_id)).scalar_one_or_none()
         if run is None:
             raise HTTPException(status_code=404, detail="Run not found")
         return serialize_run(run)
 
     @app.post("/api/runs/{run_id}/process", response_model=RunRead, dependencies=[Depends(require_admin_token)])
-    def process_run(run_id: str, request: Request, session: Session = Depends(get_session)):
-        del session
+    def process_run(run_id: str, request: Request):
         run = process_run_until_complete(request.app.state.session_factory, request.app.state.settings, run_id)
         with request.app.state.session_factory() as fresh_session:
             refreshed = fresh_session.get(Run, run.id)

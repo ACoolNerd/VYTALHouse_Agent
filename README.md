@@ -24,7 +24,7 @@ Production-ready MVP for a deterministic multi-agent market research and expansi
   - agent/task status
   - outputs and evidence review
   - knowledge asset browsing
-- Seed knowledge integration under `/home/runner/work/VYTALHouse_Agent/VYTALHouse_Agent/knowledge/seed`
+- Seed knowledge integration under `knowledge/seed`
 - Guardrails:
   - planning-only disclaimers
   - claim-safety replacement for medical-style language
@@ -35,11 +35,11 @@ Production-ready MVP for a deterministic multi-agent market research and expansi
 
 ### Runtime components
 
-1. **Frontend dashboard**: server-hosted HTML/CSS/JS from `/home/runner/work/VYTALHouse_Agent/VYTALHouse_Agent/app/templates/index.html` and `/home/runner/work/VYTALHouse_Agent/VYTALHouse_Agent/app/static`.
-2. **API service**: `/home/runner/work/VYTALHouse_Agent/VYTALHouse_Agent/app/main.py`.
-3. **Worker service**: `/home/runner/work/VYTALHouse_Agent/VYTALHouse_Agent/app/worker.py`.
-4. **Persistence layer**: SQLite by default via SQLAlchemy models in `/home/runner/work/VYTALHouse_Agent/VYTALHouse_Agent/app/models.py`.
-5. **Seed knowledge loader**: `/home/runner/work/VYTALHouse_Agent/VYTALHouse_Agent/app/knowledge.py`.
+1. **Frontend dashboard**: server-hosted HTML/CSS/JS from `app/templates/index.html` and `app/static`.
+2. **API service**: `app/main.py`.
+3. **Worker service**: `app/worker.py`.
+4. **Persistence layer**: SQLite by default via SQLAlchemy models in `app/models.py`.
+5. **Seed knowledge loader**: `app/knowledge.py`.
 
 ### Task graph
 

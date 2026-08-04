@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VYTALHouse Agent Platform</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <div>
+        <p class="eyebrow">VYTAL COSMO CoOp — Maryland Fire + Ice</p>
+        <h1>Multi-agent research and expansion dashboard</h1>
+        <p>
+          Launch deterministic research runs, monitor agent/sub-agent status, review tasks,
+          and attach seed knowledge as evidence.
+        </p>
+      </div>
+      <div class="notice">
+        <strong>Guardrails:</strong>
+        All generated outputs carry planning-only disclaimers and should be reviewed by licensed
+        legal, medical, and financial professionals before decisions are made.
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="panel">
+        <h2>Create run</h2>
+        <label for="adminToken">Admin token</label>
+        <input id="adminToken" type="password" placeholder="local-admin-token-change-me" />
+        <label for="areaInput">Target area</label>
+        <input id="areaInput" type="text" placeholder="Baltimore, Maryland" />
+        <label for="notesInput">Operator notes</label>
+        <textarea id="notesInput" rows="4" placeholder="Budget, radius, and launch goals"></textarea>
+        <button id="createRunButton" type="button">Start research run</button>
+        <p id="createRunMessage" class="muted"></p>
+      </section>
+
+      <section class="panel">
+        <h2>Run selector</h2>
+        <select id="runSelector"></select>
+        <button id="refreshButton" type="button">Refresh</button>
+        <button id="processButton" type="button">Process now</button>
+        <div id="runSummary" class="summary"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Agent status</h2>
+        <div id="agentStatus" class="status-grid"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Task board</h2>
+        <div class="board">
+          <div>
+            <h3>Queued / Blocked</h3>
+            <ul id="queuedTasks"></ul>
+          </div>
+          <div>
+            <h3>Running</h3>
+            <ul id="runningTasks"></ul>
+          </div>
+          <div>
+            <h3>Done / Failed</h3>
+            <ul id="doneTasks"></ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Outputs</h2>
+        <div id="artifacts"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Evidence</h2>
+        <div id="evidence"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Seed knowledge</h2>
+        <input id="knowledgeQuery" type="text" placeholder="Search knowledge assets" />
+        <div id="knowledgeAssets"></div>
+      </section>
+    </main>
+
+    <script src="/static/app.js"></script>
+  </body>
+</html>

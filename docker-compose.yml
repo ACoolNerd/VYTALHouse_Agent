@@ -1,0 +1,29 @@
+services:
+  api:
+    build: .
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000
+    environment:
+      VYTAL_DATABASE_URL: sqlite:////app/data/vytalhouse.db
+      VYTAL_ADMIN_TOKEN: ${VYTAL_ADMIN_TOKEN:-local-admin-token-change-me}
+      VYTAL_EMBEDDED_WORKER: "false"
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./:/app
+      - vytal-data:/app/data
+
+  worker:
+    build: .
+    command: python -m app.worker
+    environment:
+      VYTAL_DATABASE_URL: sqlite:////app/data/vytalhouse.db
+      VYTAL_ADMIN_TOKEN: ${VYTAL_ADMIN_TOKEN:-local-admin-token-change-me}
+      VYTAL_EMBEDDED_WORKER: "false"
+    volumes:
+      - ./:/app
+      - vytal-data:/app/data
+    depends_on:
+      - api
+
+volumes:
+  vytal-data:
